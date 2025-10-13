@@ -7,7 +7,9 @@ public class Player_Controller : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
-    private float jumpPower;
+    private float jumpPower = 0;
+    [SerializeField]
+    private float maxJumpPower;
     [SerializeField]
     private int jumpCounter;
     [SerializeField]
@@ -16,6 +18,8 @@ public class Player_Controller : MonoBehaviour
     private Vector2 mousePos;
     [SerializeField]
     private int moveDirection = 0;
+    [SerializeField]
+    private float jumpChargeVariable;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -40,7 +44,7 @@ public class Player_Controller : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Space))
             {
                 
-                playerJump(jumpPower, mousePos);
+                playerJump(mousePos);
             }
         }
         if (Input.GetKey(KeyCode.A) != Input.GetKey(KeyCode.D))
@@ -66,12 +70,19 @@ public class Player_Controller : MonoBehaviour
         float move = direction * moveSpeed * Time.deltaTime;
         this.transform.Translate(move, 0, 0);
     }
-    private void playerJump(float jumpPower, Vector2 mousePos)
+    private void playerJump(Vector2 mousePos)
     {
-
+        Vector2 impulseForce = mousePos * jumpPower;
+        rb.AddForce(impulseForce, ForceMode2D.Impulse);
+        jumpPower = 0;
     }
-    private float chargeJump()
+    private void chargeJump()
     {
-        return 0;
+        
+        jumpPower += jumpChargeVariable;
+        if(jumpPower > maxJumpPower)
+        {
+            jumpPower = maxJumpPower;
+        }
     }
 }
