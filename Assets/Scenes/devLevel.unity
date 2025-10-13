@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player_Controller
   rb: {fileID: 165671215}
-  moveSpeed: 7
+  moveSpeed: 4
   jumpPower: 0
   jumpCounter: 0
   isGrounded: 1
