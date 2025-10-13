@@ -18,6 +18,11 @@ public class Player_Controller : MonoBehaviour
     private int moveDirection = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Awake()
+    {
+        rb = gameObject.GetComponent<Rigidbody2D>();
+    }
+
     void Start()
     {
         
@@ -44,11 +49,11 @@ public class Player_Controller : MonoBehaviour
             {
                 moveDirection = -1;
             }
-            else if (Input.GetKey(KeyCode.D))
+            else 
             {
                 moveDirection = 1;
             }
-
+            playerMove(moveDirection);
         }
         else
         {
@@ -56,9 +61,10 @@ public class Player_Controller : MonoBehaviour
         }
         
     }
-    private void playerMove()
+    private void playerMove(int direction)
     {
-
+        float move = direction * moveSpeed * Time.deltaTime * 100;
+        this.transform.Translate(move, 0, 0);
     }
     private void playerJump(float jumpPower, Vector2 mousePos)
     {
