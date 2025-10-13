@@ -38,18 +38,23 @@ public class Player_Controller : MonoBehaviour
                 playerJump(jumpPower, mousePos);
             }
         }
-        if (Input.GetKey(KeyCode.A) == Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.A) != Input.GetKey(KeyCode.D))
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                moveDirection = -1;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                moveDirection = 1;
+            }
+
+        }
+        else
         {
             moveDirection = 0;
         }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            moveDirection = -1;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            moveDirection = 1;
-        }
+        
     }
     private void playerMove()
     {
