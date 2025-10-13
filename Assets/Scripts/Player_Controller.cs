@@ -63,7 +63,7 @@ public class Player_Controller : MonoBehaviour
     }
     private void playerMove(int direction)
     {
-        float move = direction * moveSpeed * Time.deltaTime * 100;
+        float move = direction * moveSpeed * Time.deltaTime;
         this.transform.Translate(move, 0, 0);
     }
     private void playerJump(float jumpPower, Vector2 mousePos)
