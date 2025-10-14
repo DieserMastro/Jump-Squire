@@ -11,15 +11,17 @@ public class Player_Controller : MonoBehaviour
     [SerializeField]
     private float maxJumpPower;
     [SerializeField]
+    private float minJumpPower;
+    [SerializeField]
     private int jumpCounter;
     [SerializeField]
     private bool isGrounded = true;
     [SerializeField]
-    private Vector2 mousePos;
-    [SerializeField]
     private int moveDirection = 0;
     [SerializeField]
     private float jumpChargeVariable;
+    [SerializeField]
+    private GameObject jumpRange;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -35,17 +37,22 @@ public class Player_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePos.x = Input.mousePosition.x;
-        mousePos.y = Input.mousePosition.y;
+        
 
-        if (Input.GetKey(KeyCode.Space) && isGrounded)
+        if (Input.GetMouseButton(0) && isGrounded)
         {
             chargeJump();
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                
-                playerJump(mousePos);
-            }
+            
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("space GetKeyUp");
+            
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = -Camera.main.transform.position.z; // distance from camera to world plane
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
+            playerJump(worldPos2D);
         }
         if (Input.GetKey(KeyCode.A) != Input.GetKey(KeyCode.D))
         {
@@ -72,17 +79,31 @@ public class Player_Controller : MonoBehaviour
     }
     private void playerJump(Vector2 mousePos)
     {
-        Vector2 impulseForce = mousePos * jumpPower;
-        rb.AddForce(impulseForce, ForceMode2D.Impulse);
+        Debug.Log("Jump");
+        Vector2 impulse = calculateImpulseDirection(mousePos) * jumpPower;
+        this.rb.AddForce(impulse, ForceMode2D.Impulse);
         jumpPower = 0;
     }
     private void chargeJump()
     {
         
         jumpPower += jumpChargeVariable;
-        if(jumpPower > maxJumpPower)
+        if (jumpPower > maxJumpPower)
         {
             jumpPower = maxJumpPower;
         }
+        else if (jumpPower < minJumpPower)
+        {
+            jumpPower = minJumpPower;
+        }
+        
+    }
+    private Vector2 calculateImpulseDirection(Vector2 mousePos)
+    {
+        Vector2 direction = new Vector2(mousePos.x - this.transform.position.x, mousePos.y - this.transform.position.y);
+        direction.Normalize();
+        Debug.Log(direction);
+        return direction;
+        
     }
 }
