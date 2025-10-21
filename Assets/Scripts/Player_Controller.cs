@@ -21,9 +21,9 @@ public class Player_Controller : MonoBehaviour
     [SerializeField]
     private float jumpChargeVariable;
     [SerializeField]
-    private GameObject jumpRange;
+    private Vector2 mousePos2D;
+    
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -34,27 +34,23 @@ public class Player_Controller : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = -Camera.main.transform.position.z; // distance from camera to world plane
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+        mousePos = Vector2(worldPos.x, worldPos.y);
 
         if (Input.GetMouseButton(0) && isGrounded)
         {
-            chargeJump();
-            
+            ChargeJump();
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && isGrounded)
         {
-            Debug.Log("space GetKeyUp");
-            
-            Vector3 mousePos = Input.mousePosition;
-            mousePos.z = -Camera.main.transform.position.z; // distance from camera to world plane
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-            Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
-            playerJump(worldPos2D);
+            PlayerJump(mousePos);
         }
-        if (Input.GetKey(KeyCode.A) != Input.GetKey(KeyCode.D))
+
+        if (Input.GetKey(KeyCode.A) != Input.GetKey(KeyCode.D) && isGrounded)
         {
             if (Input.GetKey(KeyCode.A))
             {
@@ -64,7 +60,7 @@ public class Player_Controller : MonoBehaviour
             {
                 moveDirection = 1;
             }
-            playerMove(moveDirection);
+            PlayerMove(moveDirection);
         }
         else
         {
@@ -72,22 +68,26 @@ public class Player_Controller : MonoBehaviour
         }
         
     }
-    private void playerMove(int direction)
+    private void FixedUpdate()
+    {
+        
+    }
+    private void PlayerMove(int direction)
     {
         float move = direction * moveSpeed * Time.deltaTime;
         this.transform.Translate(move, 0, 0);
     }
-    private void playerJump(Vector2 mousePos)
+    private void PlayerJump(Vector2 mousePos)
     {
         Debug.Log("Jump");
-        Vector2 impulse = calculateImpulseDirection(mousePos) * jumpPower;
+        Vector2 impulse = CalculateMouseDirection(mousePos) * jumpPower;
         this.rb.AddForce(impulse, ForceMode2D.Impulse);
         jumpPower = 0;
     }
-    private void chargeJump()
+    private void ChargeJump()
     {
         
-        jumpPower += jumpChargeVariable;
+        jumpPower += jumpChargeVariable * Time.deltaTime;
         if (jumpPower > maxJumpPower)
         {
             jumpPower = maxJumpPower;
@@ -98,7 +98,7 @@ public class Player_Controller : MonoBehaviour
         }
         
     }
-    private Vector2 calculateImpulseDirection(Vector2 mousePos)
+    private Vector2 CalculateMouseDirection(Vector2 mousePos)
     {
         Vector2 direction = new Vector2(mousePos.x - this.transform.position.x, mousePos.y - this.transform.position.y);
         direction.Normalize();
