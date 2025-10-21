@@ -3,7 +3,7 @@ using UnityEngine;
 public class Player_Controller : MonoBehaviour
 {
     [SerializeField] 
-    protected Rigidbody2D rb;
+    protected Rigidbody2D rb;   
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
@@ -27,6 +27,7 @@ public class Player_Controller : MonoBehaviour
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+         
     }
 
     void Start()
@@ -39,15 +40,23 @@ public class Player_Controller : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = -Camera.main.transform.position.z; // distance from camera to world plane
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        mousePos = Vector2(worldPos.x, worldPos.y);
-
+        mousePos2D = new Vector2(worldPos.x, worldPos.y);
+        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 2.0f), Vector2.down);
+        if (hit)
+        {
+            Debug.DrawRay(transform.position, Vector2.down * 3.0f, Color.green);
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, Vector2.down * 3.0f, Color.red);
+        }
         if (Input.GetMouseButton(0) && isGrounded)
         {
             ChargeJump();
         }
         if (Input.GetMouseButtonUp(0) && isGrounded)
         {
-            PlayerJump(mousePos);
+            PlayerJump(mousePos2D);
         }
 
         if (Input.GetKey(KeyCode.A) != Input.GetKey(KeyCode.D) && isGrounded)
