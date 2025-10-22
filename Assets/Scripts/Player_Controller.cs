@@ -41,7 +41,7 @@ public class Player_Controller : MonoBehaviour
         mousePos.z = -Camera.main.transform.position.z; // distance from camera to world plane
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         mousePos2D = new Vector2(worldPos.x, worldPos.y);
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 2.0f), Vector2.down);
+        /*RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 2.0f), Vector2.down);
         if (hit)
         {
             Debug.DrawRay(transform.position, Vector2.down * 3.0f, Color.green);
@@ -49,7 +49,7 @@ public class Player_Controller : MonoBehaviour
         else
         {
             Debug.DrawRay(transform.position, Vector2.down * 3.0f, Color.red);
-        }
+        }*/
         if (Input.GetMouseButton(0) && isGrounded)
         {
             ChargeJump();
@@ -77,6 +77,17 @@ public class Player_Controller : MonoBehaviour
         }
         
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider != null)
+        {
+            if (collision.collider.CompareTag("Platform"))
+            {
+                this.isGrounded = true;
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
         
@@ -92,6 +103,7 @@ public class Player_Controller : MonoBehaviour
         Vector2 impulse = CalculateMouseDirection(mousePos) * jumpPower;
         this.rb.AddForce(impulse, ForceMode2D.Impulse);
         jumpPower = 0;
+        this.isGrounded = false;
     }
     private void ChargeJump()
     {
