@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ffe9c165f7a8341b181a1b7ba4a82c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Camera_Controller
-  smoothTime: 0.35
+  smoothTime: 0.15
   target: {fileID: 165671213}
 --- !u!1 &163251778
 GameObject:
@@ -280,6 +280,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 163251779}
+  - component: {fileID: 163251780}
   m_Layer: 0
   m_Name: Game Border
   m_TagString: Untagged
@@ -304,6 +305,20 @@ Transform:
   - {fileID: 2088557530}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &163251780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163251778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35833aa470d03be4db18aeed0e42af75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Border_Controller
+  offset: {x: 0, y: 0, z: 0}
+  target: {fileID: 165671213}
 --- !u!1 &165671212
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +403,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
@@ -418,12 +433,12 @@ MonoBehaviour:
   rb: {fileID: 165671215}
   moveSpeed: 4
   jumpPower: 0
-  maxJumpPower: 10
-  minJumpPower: 1
+  maxJumpPower: 100
+  minJumpPower: 15
   jumpCounter: 0
   isGrounded: 1
   moveDirection: 0
-  jumpChargeVariable: 10
+  jumpChargeVariable: 100
   mousePos2D: {x: 0, y: 0}
 --- !u!1 &592146127
 GameObject:
@@ -436,7 +451,6 @@ GameObject:
   - component: {fileID: 592146128}
   - component: {fileID: 592146130}
   - component: {fileID: 592146129}
-  - component: {fileID: 592146131}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -469,7 +483,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 22dc37ee6b17a734cbbfbc893a52d285, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -563,20 +577,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &592146131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592146127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35833aa470d03be4db18aeed0e42af75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Border_Controller
-  offset: {x: -9, y: 0, z: 0}
-  target: {fileID: 165671213}
 --- !u!1 &1239347788
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,7 +875,6 @@ GameObject:
   - component: {fileID: 2088557530}
   - component: {fileID: 2088557532}
   - component: {fileID: 2088557531}
-  - component: {fileID: 2088557533}
   m_Layer: 0
   m_Name: Square (1)
   m_TagString: Untagged
@@ -908,7 +907,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 22dc37ee6b17a734cbbfbc893a52d285, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1002,20 +1001,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2088557533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088557529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35833aa470d03be4db18aeed0e42af75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Border_Controller
-  offset: {x: 9, y: 0, z: 0}
-  target: {fileID: 165671213}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class Border_Controller : MonoBehaviour
         transform.position = new Vector3(offset.x, target.position.y, offset.z);
 
     }
-    void OnCollisionEnter2D(Collision2D collision)
+    /* void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.rigidbody != null)
         {
@@ -21,5 +21,5 @@ public class Border_Controller : MonoBehaviour
             linearVelocity.x = -linearVelocity.x;
             collision.rigidbody.linearVelocity = linearVelocity;
         }
-    }
+    }*/
 }
