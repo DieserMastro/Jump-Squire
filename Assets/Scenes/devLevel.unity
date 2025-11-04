@@ -226,7 +226,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ffe9c165f7a8341b181a1b7ba4a82c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Camera_Controller
+  offset: {x: 0, y: 3, z: -10}
   smoothTime: 0.15
   target: {fileID: 165671213}
 --- !u!1 &163251778
@@ -407,7 +408,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: dc005bdae7185b8438158be15ce0b431, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -467,8 +468,8 @@ Transform:
   m_GameObject: {fileID: 592146127}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 18, z: 1}
+  m_LocalPosition: {x: -15.71, y: -0.17, z: 0}
+  m_LocalScale: {x: 1, y: 30, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 163251779}
@@ -727,8 +728,8 @@ Transform:
   m_GameObject: {fileID: 1919875961}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -5, z: 0}
-  m_LocalScale: {x: 20, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -13.94, z: 0}
+  m_LocalScale: {x: 32, y: 15.227336, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1239347789}
@@ -891,8 +892,8 @@ Transform:
   m_GameObject: {fileID: 2088557529}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 18, z: 1}
+  m_LocalPosition: {x: 15.75, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 30, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 163251779}
