@@ -74,8 +74,7 @@ public class Player_Controller : MonoBehaviour
         else
         {
             moveDirection = 0;
-        }
-        
+        }   
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -107,7 +106,6 @@ public class Player_Controller : MonoBehaviour
     }
     private void ChargeJump()
     {
-        
         jumpPower += jumpChargeVariable * Time.deltaTime;
         if (jumpPower > maxJumpPower)
         {
@@ -116,8 +114,7 @@ public class Player_Controller : MonoBehaviour
         else if (jumpPower < minJumpPower)
         {
             jumpPower = minJumpPower;
-        }
-        
+        }   
     }
     private Vector2 CalculateMouseDirection(Vector2 mousePos)
     {
