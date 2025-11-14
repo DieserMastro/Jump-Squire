@@ -7,21 +7,29 @@ public class Player_Controller : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
+    private int moveDirection = 0;
+
+    //Variables for jumping stuff
+    [SerializeField]
     private float jumpPower = 0;
     [SerializeField]
     private float maxJumpPower;
     [SerializeField]
     private float minJumpPower;
     [SerializeField]
-    private int jumpCounter;
-    [SerializeField]
     private bool isGrounded = true;
-    [SerializeField]
-    private int moveDirection = 0;
     [SerializeField]
     private float jumpChargeVariable;
     [SerializeField]
     private Vector2 mousePos2D;
+    //for double jump (maybe)
+    [SerializeField]
+    private int jumpCounter;
+
+    //Raycast stuff
+    [SerializeField]
+    private float rayLength = 0.5f;
+    private RaycastHit2D hit;
     
 
     private void Awake()
@@ -41,15 +49,6 @@ public class Player_Controller : MonoBehaviour
         mousePos.z = -Camera.main.transform.position.z; // distance from camera to world plane
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         mousePos2D = new Vector2(worldPos.x, worldPos.y);
-        /*RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - 2.0f), Vector2.down);
-        if (hit)
-        {
-            Debug.DrawRay(transform.position, Vector2.down * 3.0f, Color.green);
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, Vector2.down * 3.0f, Color.red);
-        }*/
         if (Input.GetMouseButton(0) && isGrounded)
         {
             ChargeJump();
@@ -76,7 +75,7 @@ public class Player_Controller : MonoBehaviour
             moveDirection = 0;
         }   
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+   /* private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider != null)
         {
@@ -85,11 +84,26 @@ public class Player_Controller : MonoBehaviour
                 this.isGrounded = true;
             }
         }
-    }
+    }*/
 
-    private void FixedUpdate()
-    {
-        
+    void FixedUpdate()
+    { 
+        Vector2 origin = (Vector2)transform.position + new Vector2(0, -1.1f);
+        hit = Physics2D.Raycast(origin, Vector2.down, rayLength);
+        if (hit.collider != null)
+        {
+            Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
+            if (hit.collider.CompareTag("Platform"))
+            {
+                isGrounded = true;
+            }
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.green);
+            isGrounded = false;
+        }
+
     }
     private void PlayerMove(int direction)
     {
@@ -102,7 +116,7 @@ public class Player_Controller : MonoBehaviour
         Vector2 impulse = CalculateMouseDirection(mousePos) * jumpPower;
         this.rb.AddForce(impulse, ForceMode2D.Impulse);
         jumpPower = 0;
-        this.isGrounded = false;
+        
     }
     private void ChargeJump()
     {
