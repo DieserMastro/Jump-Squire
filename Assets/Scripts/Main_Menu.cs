@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Main_Menu : MonoBehaviour
 {
+
     [SerializeField]
     private GameObject playButton;
     [SerializeField]
@@ -14,6 +15,7 @@ public class Main_Menu : MonoBehaviour
         {
             return;
         }
+        
         UnityEngine.SceneManagement.SceneManager.LoadScene("devLevel");
     }
     public void QuitGame()

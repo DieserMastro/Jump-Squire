@@ -10,12 +10,15 @@ public class Game_Manager : MonoBehaviour
     private GameObject platform_Spawner;
     [SerializeField]
     private Canvas pauseMenu;
+    [SerializeField]
+    private Canvas deathScreen;
     private bool isPaused = false;
-    
+
     void Start()
     {
         player_Controller = player.GetComponent<Player_Controller>();
         pauseMenu.gameObject.SetActive(false);
+        deathScreen.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -54,4 +57,12 @@ public class Game_Manager : MonoBehaviour
         Time.timeScale = 1;
         UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
     }
+    public void PlayerDied()
+    {
+        
+        Time.timeScale = 0.05f;
+        deathScreen.gameObject.SetActive(true);
+        player_Controller.enabled = false;
+    }
+   
 }

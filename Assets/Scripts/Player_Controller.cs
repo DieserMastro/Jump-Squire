@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Player_Controller : MonoBehaviour
 {
+    public Game_Manager gm;
+
     [SerializeField] 
     protected Rigidbody2D rb;   
     [SerializeField]
@@ -35,6 +37,7 @@ public class Player_Controller : MonoBehaviour
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        gm = gameObject.GetComponentInParent<Game_Manager>();
          
     }
 
@@ -75,16 +78,6 @@ public class Player_Controller : MonoBehaviour
             moveDirection = 0;
         }   
     }
-   /* private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider != null)
-        {
-            if (collision.collider.CompareTag("Platform"))
-            {
-                this.isGrounded = true;
-            }
-        }
-    }*/
 
     void FixedUpdate()
     { 
@@ -137,5 +130,20 @@ public class Player_Controller : MonoBehaviour
         Debug.Log(direction);
         return direction;
         
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision != null)
+        {
+            if (collision.CompareTag("Damage"))
+                {
+                    AmDead();
+                }
+            
+         }
+    }
+    public void AmDead()
+    {
+        gm.PlayerDied();
     }
 }
