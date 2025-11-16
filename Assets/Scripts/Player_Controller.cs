@@ -61,7 +61,7 @@ public class Player_Controller : MonoBehaviour
             PlayerJump(mousePos2D);
         }
 
-        if (Input.GetKey(KeyCode.A) != Input.GetKey(KeyCode.D) && isGrounded)
+        /*if (Input.GetKey(KeyCode.A) != Input.GetKey(KeyCode.D) && isGrounded)
         {
             if (Input.GetKey(KeyCode.A))
             {
@@ -76,7 +76,7 @@ public class Player_Controller : MonoBehaviour
         else
         {
             moveDirection = 0;
-        }   
+        }   */
     }
 
     void FixedUpdate()
@@ -90,6 +90,10 @@ public class Player_Controller : MonoBehaviour
             {
                 isGrounded = true;
             }
+            else if (hit.collider.CompareTag("Damage"))
+            {
+                AmDead();
+            }
         }
         else
         {
@@ -98,11 +102,11 @@ public class Player_Controller : MonoBehaviour
         }
 
     }
-    private void PlayerMove(int direction)
+    /*private void PlayerMove(int direction)
     {
         float move = direction * moveSpeed * Time.deltaTime;
         this.transform.Translate(move, 0, 0);
-    }
+    }*/
     private void PlayerJump(Vector2 mousePos)
     {
         Debug.Log("Jump");
@@ -139,8 +143,7 @@ public class Player_Controller : MonoBehaviour
                 {
                     AmDead();
                 }
-            
-         }
+        }
     }
     public void AmDead()
     {

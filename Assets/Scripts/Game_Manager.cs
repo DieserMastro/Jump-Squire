@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Game_Manager : MonoBehaviour
@@ -9,16 +10,38 @@ public class Game_Manager : MonoBehaviour
     [SerializeField]
     private GameObject platform_Spawner;
     [SerializeField]
+    private Floor_Controller fc;
+
+    [SerializeField]
     private Canvas pauseMenu;
     [SerializeField]
     private Canvas deathScreen;
+    [SerializeField]
+    private TMP_Text deathScreenScore;
+    [SerializeField]
+    private TMP_Text deathScreenHighScore;
+    [SerializeField]
+    private Canvas gameOverlay;
+
+
     private bool isPaused = false;
+    private bool floorIsDeadly = false;
+
+    [SerializeField] private int highestPlatformReached = 0;
+    [SerializeField] private int allTimeHS;
+
+
 
     void Start()
     {
+        floorIsDeadly = false;
+        
         player_Controller = player.GetComponent<Player_Controller>();
         pauseMenu.gameObject.SetActive(false);
         deathScreen.gameObject.SetActive(false);
+        gameOverlay.gameObject.SetActive(true);
+        allTimeHS = PlayerPrefs.GetInt("Highest Score");
+        
     }
 
     // Update is called once per frame
@@ -35,6 +58,7 @@ public class Game_Manager : MonoBehaviour
                 UnpauseGame();
             }
         }
+        
 
     }
 
@@ -63,6 +87,38 @@ public class Game_Manager : MonoBehaviour
         Time.timeScale = 0.05f;
         deathScreen.gameObject.SetActive(true);
         player_Controller.enabled = false;
+
+        if (PlayerPrefs.GetInt("Highest Score") < highestPlatformReached)
+        {
+            PlayerPrefs.SetInt("Highest Score", highestPlatformReached);
+        }
+        deathScreenScore.text = "ur Score: \n" + highestPlatformReached;
+        deathScreenHighScore.text = "High Score: \n" + PlayerPrefs.GetInt("Highest Score");
+
+        gameOverlay.gameObject.SetActive(false);
+
+
     }
-   
+
+    public void PlatformReached(int index)
+    {
+        if(index > highestPlatformReached)
+        {
+            highestPlatformReached = index;
+        }
+        if(highestPlatformReached > 4)
+        {
+            SetFloorIsDanger();
+        }
+    }
+
+    public int GetCurrentScore()
+    {
+        return highestPlatformReached;
+    }
+    public void SetFloorIsDanger()
+    {
+        floorIsDeadly = true;
+        fc.SetIsLava();
+    }
 }
