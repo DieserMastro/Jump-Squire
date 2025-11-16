@@ -1,15 +1,21 @@
+using System.Runtime;
 using UnityEngine;
 
 public class Player_Controller : MonoBehaviour
 {
     public Game_Manager gm;
 
-    [SerializeField] 
-    protected Rigidbody2D rb;   
+    [SerializeField]
+    protected Rigidbody2D rb;
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
     private int moveDirection = 0;
+
+    [SerializeField]
+    private Animator animator;
+    private AudioSource audioSource;
+
 
     //Variables for jumping stuff
     [SerializeField]
@@ -31,6 +37,8 @@ public class Player_Controller : MonoBehaviour
     //Raycast stuff
     [SerializeField]
     private float rayLength = 0.5f;
+    [SerializeField]
+    private float rayOffSet;
     private RaycastHit2D hit;
     
 
@@ -38,12 +46,13 @@ public class Player_Controller : MonoBehaviour
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         gm = gameObject.GetComponentInParent<Game_Manager>();
+        audioSource = gameObject.GetComponent<AudioSource>();
          
     }
 
     void Start()
     {
-        
+        //animator.SetBool("isCharging", false);
     }
 
     void Update()
@@ -54,10 +63,12 @@ public class Player_Controller : MonoBehaviour
         mousePos2D = new Vector2(worldPos.x, worldPos.y);
         if (Input.GetMouseButton(0) && isGrounded)
         {
+            animator.SetBool("isCharging", true);
             ChargeJump();
         }
         if (Input.GetMouseButtonUp(0) && isGrounded)
         {
+            animator.SetBool("isCharging", false);
             PlayerJump(mousePos2D);
         }
 
@@ -81,11 +92,12 @@ public class Player_Controller : MonoBehaviour
 
     void FixedUpdate()
     { 
-        Vector2 origin = (Vector2)transform.position + new Vector2(0, -1.1f);
+        Vector2 origin = (Vector2)transform.position + new Vector2(0, rayOffSet);
         hit = Physics2D.Raycast(origin, Vector2.down, rayLength);
         if (hit.collider != null)
         {
             Debug.DrawRay(transform.position, Vector2.down * rayLength, Color.red);
+            Debug.Log(hit.collider);
             if (hit.collider.CompareTag("Platform"))
             {
                 isGrounded = true;
@@ -147,6 +159,7 @@ public class Player_Controller : MonoBehaviour
     }
     public void AmDead()
     {
+        audioSource.Play();
         gm.PlayerDied();
     }
 }
